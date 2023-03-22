@@ -3,6 +3,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 from nets.xception import xception
 from nets.mobilenetv2 import mobilenetv2
+import nets.resnet as resnet
+import torchvision.models.inception
+
 
 class MobileNetV2(nn.Module):
     def __init__(self, downsample_factor=8, pretrained=True):
@@ -134,6 +137,33 @@ class DeepLab(nn.Module):
             self.backbone = MobileNetV2(downsample_factor=downsample_factor, pretrained=pretrained)
             in_channels = 320
             low_level_channels = 24
+        elif backbone=="resnet34":
+            #----------------------------------#
+            #   获得两个特征层
+            #   浅层特征    [56,56,64]?
+            #   主干部分    [7,7,512]?
+            #----------------------------------#
+            self.backbone = resnet.resnet34(num_classes=num_classes)
+            in_channels = 512
+            low_level_channels = 64
+        elif backbone=="resnet101":
+            #----------------------------------#
+            #   获得两个特征层
+            #   浅层特征    [56,56,256]?
+            #   主干部分    [7,7,2048]?
+            #----------------------------------#
+            self.backbone = resnet.resnet101(num_classes=num_classes)
+            in_channels = 2048
+            low_level_channels = 256
+        elif backbone=="resnext101":
+            #----------------------------------#
+            #   获得两个特征层
+            #   浅层特征    [56,56,256]?
+            #   主干部分    [7,7,2048]?
+            #----------------------------------#
+            self.backbone = resnet.resnext101_32x8d(num_classes=num_classes)
+            in_channels = 2048
+            low_level_channels = 256
         else:
             raise ValueError('Unsupported backbone - `{}`, Use mobilenet, xception.'.format(backbone))
 
