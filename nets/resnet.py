@@ -199,3 +199,13 @@ def resnext101_32x8d(num_classes=1000, include_top=True):
                   include_top=include_top,
                   groups=groups,
                   width_per_group=width_per_group)
+
+def resnext101_32x32d(num_classes=1000, include_top=True):
+    # https://download.pytorch.org/models/resnext101_32x8d-8ba56ff5.pth
+    groups = 32
+    width_per_group = 32
+    return ResNet(Bottleneck, [3, 4, 23, 3],
+                  num_classes=num_classes,
+                  include_top=include_top,
+                  groups=groups,
+                  width_per_group=width_per_group)
