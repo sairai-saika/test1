@@ -164,15 +164,6 @@ class DeepLab(nn.Module):
             self.backbone = resnet.resnext101_32x8d(num_classes=num_classes)
             in_channels = 2048
             low_level_channels = 256
-	elif backbone=="resnext101_32x32d":
-            #----------------------------------#
-            #   获得两个特征层
-            #   浅层特征    [56,56,256]?
-            #   主干部分    [7,7,2048]?
-            #----------------------------------#
-            self.backbone = resnet.resnext101_32x32d(num_classes=num_classes)
-            in_channels = 2048
-            low_level_channels = 256	
         else:
             raise ValueError('Unsupported backbone - `{}`, Use mobilenet, xception.'.format(backbone))
 
